@@ -20,9 +20,9 @@ As this project evolves, I am eagerly seeking feedback and collaboration from an
 Feel free to reach out with suggestions, ideas, or collaboration opportunities!
 
 # Project Images
+<img width="1227" alt="Screen Shot 2024-01-10 at 2 58 18 PM" src="https://github.com/cdgriffin2001/first_repo/assets/124407756/b106e317-cf6c-4378-bb7e-51a33df76f1c">
 <img width="1226" alt="Screen Shot 2024-01-10 at 2 38 59 PM" src="https://github.com/cdgriffin2001/first_repo/assets/124407756/16fa34e1-be7c-4d9d-84ff-325e390fa4e5">
 <img width="1224" alt="Screen Shot 2024-01-10 at 2 45 36 PM" src="https://github.com/cdgriffin2001/first_repo/assets/124407756/2b21c17c-78d8-4e48-87bf-9816116931cf">
 <img width="1228" alt="Screen Shot 2024-01-10 at 2 39 15 PM" src="https://github.com/cdgriffin2001/first_repo/assets/124407756/cfaba7c9-57a7-415f-968a-2fec12690dad">
 <img width="1222" alt="Screen Shot 2024-01-10 at 2 44 35 PM" src="https://github.com/cdgriffin2001/first_repo/assets/124407756/14d424aa-5b90-4102-ac98-decf49037c2b">
-<img width="1227" alt="Screen Shot 2024-01-10 at 2 43 48 PM" src="https://github.com/cdgriffin2001/first_repo/assets/124407756/f444542d-a5af-4446-9fc3-be6f30625a19">
 
