@@ -7,8 +7,8 @@ investment opportunity.
 
 # Project Overview
 
-This project is the development of an art exchange marketplace using Django, Python, HTML, and Java. The current framework includes models for artwork, NFTs, users,
-preferences, and filters. Key functionalities implemented include posting artwork for sale, a bidding system, and a search algorithm for posted work.
+The goal of this project is to create an art exchange marketplace using Django, Python, HTML, and Java. The current framework includes models for artwork, NFTs, users, preferences, and filters. 
+Key functionalities implemented include posting artwork for sale, a bidding system, and a search algorithm.
 Data is available for NFTs and candlestick chart displays.
 
 Planned future features include Twilio verification, blockchain integration for security, and improving the user interface.
