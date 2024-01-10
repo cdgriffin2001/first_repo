@@ -1,0 +1,50 @@
+
+<style>
+
+  .container{
+    display: block;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .entry_box {
+    display: block;
+  }
+  
+  .input {
+    width: 230px;
+  }
+  
+  .not_valid {
+    color: brown;
+    font-weight: lighter;
+    font-size: small;
+  }
+  
+  .links {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  
+  </style>
+
+<div class="container">
+  <h1>Forgot Username</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+      <label class="label" for="password">Enter Password:</label>
+      <div class="entry_box">
+        <input class="input" type="text" name="password_entry" id="password_entry" required>
+        {% if not_valid %}
+          <div class="not_valid">Not a valid password, please try again</div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="links">
+      <a style="color: black;" class="links" href="{% url 'login' %}">Back to Login</a>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</div>

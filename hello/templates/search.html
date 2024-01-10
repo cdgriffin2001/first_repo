@@ -1,0 +1,538 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'hello/css/search.css' %}">
+
+<head>
+    <title>Search Example</title>
+    <!-- Your other meta tags, stylesheets, etc. go here -->
+
+    <!-- jQuery Library (include this before your custom JavaScript) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+
+    <!-- Custom JavaScript for search functionality -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+<!-- <script src="{% static 'hello/js/search.js' %}"></script> -->
+
+
+
+
+<script>
+
+var changedFilters = [];
+
+$(document).ready(function() {
+     function resetSearchResults() {
+         $(".result-container").empty();
+     }
+     // Function to handle search button click
+     $(".search_btn").on("click", function() {
+         resetSearchResults();
+         var query = $("input[type='text']").val();
+         if (query) {
+             // Send AJAX request to the backend view
+             var form_data = $("#search-form").serialize();
+             // var formData = new FormData($("#search-form")[0]);
+
+             $.ajax({
+                 url: "/search_req/",  // Replace with your backend view URL
+                 type: "POST",  // Change to "POST" if necessary
+                 data: { "query": query, "form_data":form_data, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                
+                 success: function(response) {
+                     // Data received as JSON
+                     console.log("Received data:", response);
+                     console.log("form_data:",form_data)
+
+                     var resultContainer = $(".result-container");
+                     resultContainer.css({
+                        marginLeft: "30px",
+                        display: "flex",
+                        flexWrap: "wrap",
+                    });
+                     resultContainer.empty();  // Clear previous artwork data
+
+                     // Iterate through the data and create HTML elements for each artwork
+                     for (var i = 0; i < response.length; i++) {
+                         var result = response[i];
+                        //  console.log('result', result)
+                         var resultHTML = '<div class="result">';
+
+                         if (result.art_id) {
+                             resultHTML += `
+                                <div class="item">
+                                  <a href="${result.is_for_sale ? result.art_details_url : result.sold_art_details_url}" class="item-link" >
+                                    <div class="search-banner">
+                                      "${result.name}" - ${result.art_price}
+                                    </div>
+                                    
+                                    <div class="search-contents" >
+                                      <img src="data:image/png;base64,${result.image_data}" alt="${result.name} Image" class="item-image">
+                                    </div>
+                                    <div class="item-details">
+                                        <li>Art</li>
+                                        <li>${result.for_sale}</li>
+                                        <li>${result.owner}</li>
+                                        <li>NFT's: ${result.share_count}</li>
+                                    </div>
+                                  </a>
+                                </div>
+                                `;
+                        } else if (result.username) {
+                            resultHTML += `
+                              <div class="item">
+                                  <a href="${result.public_profile_url}" class="item-link" >
+                                    <div class="search-banner">
+                                      ${result.username}
+                                    </div>
+                                    
+                                    <div class="profile-contents" >
+                                        <div class="profile-picture-placeholder">
+                                          <img src="data:image/png;base64,${result.image_data}" alt="${result.name} Image" class="profile-image">
+                                        </div>
+                                    </div>
+
+                                    <div class="profile-details">
+                                          <li>User</li>
+                                          <li>artist/investor</li>
+                                          <li>art for sale</li>
+                                          <li>portfolio growth </li>
+                                    </div>
+                                  </a>
+                                </div> 
+                            `;
+                        } else if (result.nft_id) {
+                            resultHTML += `
+                              <div class="item">
+                                <a href="${result.nft_details_url}" class="item-link" >
+                                  <div class="search-banner">
+                                    "${result.name}" - ${result.nft_price}
+                                  </div>
+                                  
+                                  <div class="search-contents" >
+                                    <img src="data:image/png;base64,${result.image_data}" alt="${result.name} Image" class="item-image">
+                                  </div>
+                                  <div class="item-details">
+                                        <li>NFT</li>
+                                        <li>${result.for_sale}</li>
+                                        <li>${result.owner}</li>
+                                        <li>NFT's: ${result.NFT_count}</li>
+                                        <li>${result.percent_change}</li>
+                                  </div>
+                                </a>
+                              </div>
+                            `;
+                        }
+                        resultHTML += '</div>';
+
+                        resultContainer.append(resultHTML);
+                        // console.log("Generated HTML for result", i + 1, ":", resultHTML);
+                    }
+                }
+            });
+        }
+    });
+
+    // Handle changes in filter options and reset search results
+    $("#time_frame, #min-price, #max-price, #sold, #for_sale, #want_artwork, #want_nfts, #realism-input").on("change", function() {
+        resetSearchResults();
+
+        console.log('change in filter option')
+            // Create an object to store filter changes
+        
+        // Get the ID of the changed filter element
+        var changedFilterId = $(this).attr('id');
+        console.log('change filter id:', changedFilterId)
+
+        // Get the new value of the changed filter element
+        var newValue = $(this).val();
+        console.log('new value:', newValue)
+
+        // Check if the filter value has changed and it's not already in the list
+        var foundIndex = -1;
+        for (var i = 0; i < changedFilters.length; i++) {
+            if (changedFilters[i][changedFilterId]) {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex !== -1) {
+            // Filter already exists in the list, toggle its value
+            if (changedFilters[foundIndex][changedFilterId] === 'on') {
+                changedFilters[foundIndex][changedFilterId] = 'off';
+            } else {
+                changedFilters[foundIndex][changedFilterId] = 'on';
+            }
+        } else {
+            // Append the changed filter value to the list
+            var filterChange = {};
+            filterChange[changedFilterId] = newValue;
+            changedFilters.push(filterChange);
+        }
+
+        // Iterate through the changedFilters list to use it in your HTML
+        // You can send this list back to your HTML or use it for further processing
+        console.log('Changed Filters:', changedFilters);
+
+        $.ajax({
+              url: "/search/",  // Replace with your backend view URL
+              type: "POST",  // Change to "POST" if necessary
+              data: { "changedFilters": JSON.stringify(changedFilters), csrfmiddlewaretoken: '{{ csrf_token }}'},
+              
+              success: function(response) {
+                  // Data received as JSON
+                  console.log("sucess");
+              }})
+
+        var query = $("input[type='text']").val();
+        if (query) {
+
+          console.log('query is being sent')
+            // Send AJAX request to the backend view
+            var form_data = $("#search-form").serialize();
+            // var formData = new FormData($("#search-form")[0]);
+
+            $.ajax({
+                url: "/search_req/",  // Replace with your backend view URL
+                type: "POST",  // Change to "POST" if necessary
+                data: { "query": query, "form_data":form_data, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                
+                success: function(response) {
+                    // Data received as JSON
+                    // console.log("Received data:", response);
+                    // console.log("form_data:",form_data)
+
+                    var resultContainer = $(".result-container");
+                    resultContainer.css({
+                        marginLeft: "30px",
+                        display: "flex",
+                        flexWrap: "wrap",
+                    });
+                    resultContainer.empty();  // Clear previous artwork data
+
+                    console.log("made result container")
+                    console.log("response.data:", response.length);
+
+                    // Iterate through the data and create HTML elements for each artwork
+                    for (var i = 0; i < response.length; i++) {
+                        var result = response[i];
+                        // console.log('result', result)
+                        var resultHTML = '<div class="result">';
+
+                        if (result.art_id) {
+                            resultHTML += `
+                              <div class="item">
+                                <a href="${result.is_for_sale ? result.art_details_url : result.sold_art_details_url}" class="item-link" >
+                                  <div class="search-banner">
+                                    "${result.name}" - ${result.art_price}
+                                  </div>
+                                  
+                                  <div class="search-contents" >
+                                    <img src="data:image/png;base64,${result.image_data}" alt="${result.name} Image" class="item-image">
+                                  </div>
+                                </a>
+                              </div>
+                              `;
+                        } else if (result.username) {
+                            resultHTML += `
+                              <div class="item">
+                                  <a href="${result.public_profile_url}" class="item-link" >
+                                    <div class="search-banner">
+                                      ${result.username}
+                                    </div>
+                                    
+                                    <div class="profile-contents" >
+                                        <div class="profile-picture-placeholder">
+                                          <img src="data:image/png;base64,${result.image_data}" alt="${result.name} Image" class="profile-image">
+                                        </div>
+                                    </div>
+
+                                    <div class="profile-details">
+                                          <li>User</li>
+                                          <li>artist/investor</li>
+                                          <li>art for sale</li>
+                                          <li>portfolio growth </li>
+                                    </div>
+                                  </a>
+                              </div>
+                            `;
+                        } else if (result.nft_id) {
+                            resultHTML += `
+                              <div class="item">
+                                <a href="${result.nft_details_url}" class="item-link" >
+                                  <div class="search-banner">
+                                    "${result.name}" - ${result.nft_price}
+                                  </div>
+                                  
+                                  <div class="search-contents" >
+                                    <img src="data:image/png;base64,${result.image_data}" alt="${result.name} Image" class="item-image">
+                                  </div>
+                                </a>
+                              </div>
+                            `;
+                        }
+                        resultHTML += '</div>';
+
+                        resultContainer.append(resultHTML);
+                        // console.log("Generated HTML for result", i + 1, ":", resultHTML);
+                    }
+                }
+            });
+        }
+    });
+});
+
+
+
+</script> 
+
+
+</head>
+<h1 class="title">Search</h1>
+<!-- make GOAT search bar -->
+
+
+<div class="search-container">   
+  <div>
+      <button class="search_btn">Search</button>
+  </div>
+  <input type="text" name="search" id="search">
+</div>
+
+<div class="container">
+ 
+  <form method="POST" class="filters-container" id="search-form">
+    {% csrf_token %}
+    
+    <div class="percent-growth"> 
+        <!-- <h3 class="percent-growth-title"> Percent growth</h3> -->
+        <div class="percent-growth-contents">
+          <div style="padding-top: 5px;">
+            <label for="percent_growth">Percent Growth:</label>
+            <input type="number" value="{{ form.instance.percent_growth }}" id="percent_growth" placeholder="Enter percent growth" name="percent_growth" min="0" step="0.01">
+          </div>          
+          <div style="padding-top: 5px;" class="time-frame">
+              <label for="time_frame">Time Frame:</label>
+              <select style="margin-left: 5px;" id="time_frame" name="time_frame">
+              {% if form.instance.time_frame == 'any'%}
+                <option value="any"  selected>Any</option>
+              {% else %}
+                <option value="any" >Any</option>
+              {% endif %}
+
+              {% if form.instance.time_frame == 'week'%}
+                <option value="week"  selected>Past Week</option>
+              {% else %}
+                <option value="week" >Past Week</option>
+              {% endif %}
+
+              {% if form.instance.time_frame == 'month'%}
+                <option value="month"  selected>Month</option>
+              {% else %}
+                <option value="month" >Month</option>
+              {% endif %}
+
+              {% if form.instance.time_frame == 'Past Year'%}
+                <option value="year"  selected>Year</option>
+              {% else %}
+                <option value="year" >Past Year</option>
+              {% endif %}
+              </select>
+          </div>
+        </div>
+    </div>
+
+    <div style="padding:5px;" class="price-container">
+      <div style="padding-top: 5px;">
+        <label for="min-price">Minimum Price:</label>
+        <input type="number" id="min-price" name="min_price" step="0.01" min="0" placeholder="Enter minimum price" value="{{ form.instance.min_price }}">
+      </div>
+      <div style="padding-top: 5px;">
+        <label for="max-price">Maximum Price:</label>
+        <input type="number" id="max-price" name="max_price" step="0.01" min="0" placeholder="Enter maximum price" value="{{ form.instance.max_price }}">
+      </div>
+    </div>
+
+    <div style="padding-top: 5px;" class="further-details">
+      <label for="sold">sold</label>
+      {% if form.instance.sold %}
+        <input type="checkbox" id="sold" name="sold" value="True" checked>
+      {% else %}
+        <input type="checkbox" id="sold" name="sold" value="True">
+      {% endif %}
+    
+      <label for="for_sale">For Sale</label>
+      {% if form.instance.for_sale %}
+        <input type="checkbox" id="for_sale" name="for_sale" value="True" checked>
+      {% else %}
+        <input type="checkbox" id="for_sale" name="for_sale" value="True">
+      {% endif %}
+    
+      <label for="want_artwork">Artwork</label>
+      {% if form.instance.want_artwork %}
+        <input type="checkbox" id="want_artwork" name="want_artwork" value="True" checked>
+      {% else %}
+        <input type="checkbox" id="want_artwork" name="want_artwork" value="True">
+      {% endif %}
+    
+      <label for="want_nfts">NFT</label>
+      {% if form.instance.want_nfts %}
+        <input type="checkbox" id="want_nfts" value="True" name="want_nfts" checked>
+      {% else %}
+        <input type="checkbox" id="want_nfts" name="want_nfts" value="True">
+      {% endif %}
+    </div>
+    
+
+    {% if repop_data %}
+      True
+    {% else %}
+      False
+    {% endif %}
+
+
+    <div class="art-styles-filter-container">
+      <div class="art-styles" onclick="toggleSubFilters('art-styles')">Art Styles</div>
+        <label class="sub-filter" id="art-styles" for="realism-input"  onclick="underlineSubFilters('realism')">Realism</label>
+        <input type="checkbox" name="realism-input" id="realism-input", value="True"  style="display: none;">
+      </div>
+    </div>
+    
+
+
+    <div class="button-container">
+      <input type="submit" name="reset_filters" value="Reset Filters">
+      <input type="submit" name="save_changes" value="Save Changes">
+    </div>
+  </form>
+
+
+<div class="result-container" style="display: none;">
+  {% for artwork in artworks %}
+  <div class="result">
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+
+const jsonData = {
+    realism: true, // Set this to true to check the checkbox, or false to uncheck it.
+    // Add more properties for other checkboxes if needed.
+  };
+
+
+function toggleSubFilters(id) {
+  const subFilters = document.getElementById(id);
+  subFilters.style.display = subFilters.style.display === 'none' ? 'block' : 'none';
+  console.log('id:',id)
+  document.querySelectorAll(".art-styles").forEach(function(element) {
+  console.log('element:', element);
+  const art_style=element
+    document.querySelectorAll(".sub-filter").forEach(function(item) {
+        console.log('item:',item)
+        console.log('item.classlist:',item.classList)
+
+        if (item.classList.contains("active")) {
+          console.log('item does have active so since jus got clicked should underline')
+              art_style.classList.add("active");
+          } else {
+            console.log('item does not have active so since jus got clicked should removeunderline')
+              art_style.classList.remove("active");
+            }
+    });
+  });
+}
+
+
+function underlineSubFilters(id){
+  document.querySelectorAll(".sub-filter").forEach(function(element) {
+    const hiddenInput = document.getElementById(id+'-input');
+      document.querySelectorAll(".sub-filter").forEach(function(item) 
+      {
+        if (item && item.classList) {
+          const checkbox = document.getElementById(id + '-input');
+          console.log( 'has item and item.classlist:',item.classList)
+              if (item.classList.contains("active")) {
+                console.log('classlist contains active, id:',id)
+                item.classList.remove("active");
+                checkbox.checked = false;       
+              } else {
+                console.log('does not contian active')
+                item.classList.add("active");
+                checkbox.checked = true;
+                console.log('triggered,id:',id)
+              }
+          } else {
+              console.log('does not have a item and item.classlist:')
+                item.classList.add("active");
+                checkbox.checked = true;
+            }
+      });
+    });
+}
+
+
+
+
+
+</script> 
+
+
+<!-- console.log('change in filter option')
+            // Create an object to store filter changes
+        
+        // Get the ID of the changed filter element
+        var changedFilterId = $(this).attr('id');
+        console.log('change filter id:', changedFilterId)
+
+        // Get the new value of the changed filter element
+        var newValue = $(this).val();
+        console.log('new value:', newValue)
+
+        // Check if the filter value has changed and it's not already in the list
+        var foundIndex = -1;
+        for (var i = 0; i < changedFilters.length; i++) {
+            if (changedFilters[i][changedFilterId]) {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex !== -1) {
+            // Filter already exists in the list, toggle its value
+            if (changedFilters[foundIndex][changedFilterId] === 'on') {
+                changedFilters[foundIndex][changedFilterId] = 'off';
+            } else {
+                changedFilters[foundIndex][changedFilterId] = 'on';
+            }
+        } else {
+            // Append the changed filter value to the list
+            var filterChange = {};
+            filterChange[changedFilterId] = newValue;
+            changedFilters.push(filterChange);
+        }
+
+        // Iterate through the changedFilters list to use it in your HTML
+        // You can send this list back to your HTML or use it for further processing
+        console.log('Changed Filters:', changedFilters);
+
+        $.ajax({
+              url: "/search/",  // Replace with your backend view URL
+              type: "POST",  // Change to "POST" if necessary
+              data: { "changedFilters": JSON.stringify(changedFilters), csrfmiddlewaretoken: '{{ csrf_token }}'},
+              
+              success: function(response) {
+                  // Data received as JSON
+                  console.log("Received data:", response);
+              }}) -->
+
+
+{% endblock %}
+
+

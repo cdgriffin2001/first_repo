@@ -1,0 +1,132 @@
+
+
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<style>
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* This will center the form vertically */
+  }
+  
+.artwork-container {
+    margin-top: 20px;
+}
+
+.artwork-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+        /* Style the navigation links */
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 50px;
+
+}
+
+nav ul li a {
+    color: white; /* White text color for navigation links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    color: #ccc; /* Light gray text color on hover */
+}
+
+.link-container {
+        display: flex; /* Add display flex to align items horizontally */
+        justify-content: space-between; /* Add space between the two elements */
+        margin-top: 10px;
+}
+    
+</style>
+
+
+<nav>
+    <ul>
+        <li><a href="{% url 'art_styles' %}">Pick your interests (art_styles)</a></li>
+        <li><a href="{% url 'watchlist' %}">View your watchlist</a></li>
+        <li><a href="{% url 'filters' %}">Filters</a></li>
+        <li><a href="{% url 'search' %}">Search</a></li>
+
+    </ul>
+</nav>
+ 
+<h1 style="display:flex; justify-content: center;
+align-items: center; padding: 20px;">Welcome to the NFT Gallery</h1>
+
+
+<div class="container">
+    <div class="artwork-container">
+        {% for nft in nfts %}
+        <div class="artwork">
+            <h2>"{{ nft.artwork.name }}" - ${{ nft.artwork.share_price }}</h2>
+            <p></p>
+            <img src="{{ nft.main_image.url }}" alt="NFT Image" style="max-width: 300px; max-height: 300px;">
+            <div class="link-container">
+                <a style="color: aliceblue;" href="{% url 'investor_details' %}?nft_id={{ nft.id }}">Investor Details</a>
+                <button class="add-to-watchlist" data-nft-id="{{ nft.id }}">Add to Watchlist</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.add-to-watchlist').click(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var artworkId = $(this).data('artwork-id');
+            var nftId = $(this).data('nft-id');
+
+            // Create an AJAX request to add the artwork to the watchlist
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'add_to_watchlist' %}",
+                data: {
+                    artwork_id: artworkId,
+                    nft_id: nftId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    // Handle the success response here
+                    console.log('Artwork added to watchlist successfully');
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error here
+                    console.error('Error adding artwork to watchlist:', error);
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}
+
+
+

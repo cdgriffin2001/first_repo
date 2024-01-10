@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .image-upload {
+  width: 200px;
+  height: 200px;
+  background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.image-upload img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  color: gray;
+}
+
+.image-placeholder i {
+  margin-top: -10px;
+}
+
+  .image-upload {
+    width: 200px;
+    height: 200px;
+    background-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .image-upload img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .additional-images {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .additional-images img {
+    width: 25%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    font-weight: bold;
+  }
+
+  .error-message {
+    color: red;
+  }
+</style>
+
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<div style="max-width: 500px; margin: 0 auto;">
+  <h1>Art Post</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- Main Image Upload -->
+    <div class="form-group">
+      <label class="form-label" for="id_main_image">Upload Main Image:</label>
+      <div class="image-upload" id="main-image-preview">
+        {% if form.main_image.value %}
+          <img src="{{ form.main_image.value.url }}" alt="Main Image">
+        {% else %}
+          <div class="image-placeholder">
+            <i class="fas fa-image"></i>
+          </div>
+        {% endif %}
+      </div>
+      <input type="file" id="id_main_image" name="main_image" required>
+    </div>
+
+    <!-- have to make Additional Images Upload widget to handle this kinda upload
+    <div class="form-group">
+      <label class="form-label" for="id_additional_images">Upload Additional Images:</label>
+      <div class="additional-images" id="additional-images-preview">
+        {% if form.additional_images.value %}
+          {% for image in form.additional_images.value %}
+            <img src="{{ image.url }}" alt="Additional Image">
+          {% endfor %}
+        {% else %}
+          <div class="image-placeholder">
+            <i class="fas fa-image"></i>
+          </div>
+        {% endif %}
+      </div>
+      <input type="file" id="id_additional_images" name="additional_images" multiple>
+    </div> -->
+
+
+    <!-- Art Piece Name -->
+    <div class="form-group">
+      <label class="form-label" for="id_name">Name of Art Piece:</label>
+      <input type="text" id="id_name" name="name" value="{{ form.instance.name }}" required>
+      {% if form.errors.name %}
+        <p class="error-message">{{ form.errors.name }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Artist Name -->
+    <div class="form-group">
+      <label class="form-label" for="id_artist">Your Name:</label>
+      <input type="text" id="id_artist" name="artist" value="{{ form.instance.artist }}" required>
+      {% if form.errors.artist %}
+        <p class="error-message">{{ form.errors.artist }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Description and Details -->
+    <div class="form-group">
+      <label class="form-label" for="id_description">Description and Details:</label>
+      <textarea id="id_description" name="description" required>{{ form.instance.description }}</textarea>
+      {% if form.errors.description %}
+        <p class="error-message">{{ form.errors.description }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Number of Shares -->
+    <div class="form-group">
+      <label class="form-label" for="id_shares_count">Number of Shares:</label>
+      <input type="number" id="id_shares_count" name="shares_count" value="{{ form.instance.shares_count }}" min="1" required>
+      {% if form.errors.shares_count %}
+        <p class="error-message">{{ form.errors.shares_count }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Price per Share -->
+    <div class="form-group">
+      <label class="form-label" for="id_share_price">Price per Share:</label>
+      <input type="number" id="id_share_price" name="share_price" value="{{ form.instance.share_price }}" min="0" step="0.01" required>
+      {% if form.errors.share_price %}
+        <p class="error-message">{{ form.errors.share_price }}</p>
+      {% endif %}
+    </div>
+
+
+    <!-- Submit Button -->
+    <div class="form-group">
+        <input type="submit" name="action" value="Post Art" formnovalidate>
+        <input type="submit" name="action" value="Save to Drafts" formnovalidate>
+    </div>
+    
+    <!-- Drafts Link -->
+    <div class="form-group">
+      <a href="{% url 'draft_view' %}">Drafts</a>
+    </div>
+
+
+    </div>
+  </form>
+</div>
+
+
+{% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+
+
+<script>
+
+const mainImageInput = document.getElementById("id_main_image");
+
+mainImageInput.addEventListener("change", function(event) {
+  const preview = document.getElementById("main-image-preview");
+  const file = event.target.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function() {
+      const image = document.createElement("img");
+      image.src = reader.result;
+      image.alt = "Main Image";
+      preview.innerHTML = "";
+      preview.appendChild(image);
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    preview.innerHTML = '<div class="image-placeholder"><i class="fas fa-image"></i></div>';
+  }
+});
+
+const additionalImagesInput = document.getElementById("id_additional_images");
+
+additionalImagesInput.addEventListener("change", function(event) {
+  const previewContainer = document.getElementById("additional-images-preview");
+  previewContainer.innerHTML = ""; // Clear previous preview images
+
+  for (let i = 0; i < event.target.files.length; i++) {
+    const file = event.target.files[i];
+    const reader = new FileReader();
+
+    reader.onload = function() {
+      const image = document.createElement("img");
+      image.src = reader.result;
+      image.alt = "Additional Image";
+      previewContainer.appendChild(image);
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  if (event.target.files.length === 0) {
+    previewContainer.innerHTML = '<div class="image-placeholder"><i class="fas fa-image"></i></div>';
+  }
+});
+
+</script>
+
+{% endblock %}

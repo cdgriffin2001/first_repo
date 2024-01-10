@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .profile-picture-placeholder {
+            width: 100px;
+            height: 100px;
+            background-color: lightgray;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .profile-picture-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
+        }
+
+        /* Other styles... */
+    </style>
+
+    <h1><p> {{ user_profile}}'s Public Profile</p></h1>
+
+    {% if user_profile %}
+        {% if user_profile.profile_image %}
+            <div class="profile-picture-placeholder">
+                <img src="{{ user_profile.profile_image.url }}" alt="Profile Picture">
+            </div>
+        {% else %}
+            <div class="profile-picture-placeholder"></div>
+        {% endif %}
+
+        {% if user_profile.bio %}
+            <p>Bio: {{ user_profile.bio }}</p>
+        {% endif %}
+    {% else %}
+        <p>No profile found.</p>
+    {% endif %}
+
+    <!-- Display the artworks associated with the artist -->
+
+
+    {% if artworks %}
+    <h2>Artwork for sale:</h2>
+        <div class="artwork-container">
+            {% for artwork in artworks %}
+                <div>
+                    <img class="artwork-image" src="{{ artwork.main_image.url }}" alt="Artwork Image" style="max-width: 300px; max-height: 300px;">
+                    <h3>{{ artwork.name }}</h3>
+                </div>
+                <a href="{% url 'art_details' %}?artwork_id={{ artwork.id|add:0 }}">Art Details</a>
+            {% endfor %}
+        </div>
+    
+    {% else %}
+    <h2>Artwork for sale:</h2>
+        <p>No art posted yet.</p>
+    {% endif %}
+
+
+    {% if sold_artworks%}
+
+    <h2>Sold Artwork:</h2>
+    
+    <div class="artwork-container">
+        {% for artwork in sold_artworks %}
+            <div>
+                <img class="artwork-image" src="{{ artwork.main_image.url }}" alt="Artwork Image" style="max-width: 300px; max-height: 300px;">
+                <h3>{{ artwork.name }}</h3>
+            </div>
+            <a href="{% url 'sold_art_details' %}?artwork_id={{ artwork.id|add:0 }}">Art Details</a>
+        {% endfor %}
+    </div>
+
+
+
+    {% else %}
+    <h2>Sold Artwork:</h2>
+        <p>No art sold yet.</p>
+    {% endif %}
+
+
+    
+
+{% endblock %}
+

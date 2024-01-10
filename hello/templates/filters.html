@@ -1,0 +1,93 @@
+
+<!-- add filter for recently sold or for sale -->
+<style>
+.button-container{
+  margin-top: 30px;
+}
+
+</style>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <h1>Percent growth</h1>
+    <div> 
+        <label for="percent_growth">Percent Growth:</label>
+        <input type="number" value="{{ form.instance.percent_growth }}" id="percent_growth" name="percent_growth" min="0" step="0.01">
+        <div>
+            <label for="time_frame">Time Frame:</label>
+            <select id="time_frame" name="time_frame">
+            {% if form.instance.time_frame == 'any'%}
+              <option value="any"  selected>Any</option>
+            {% else %}
+              <option value="any" >Any</option>
+            {% endif %}
+
+            {% if form.instance.time_frame == 'week'%}
+              <option value="week"  selected>Past Week</option>
+            {% else %}
+              <option value="week" >Past Week</option>
+            {% endif %}
+
+            {% if form.instance.time_frame == 'month'%}
+              <option value="month"  selected>Month</option>
+            {% else %}
+              <option value="month" >Month</option>
+            {% endif %}
+
+            {% if form.instance.time_frame == 'Past Year'%}
+              <option value="year"  selected>Year</option>
+            {% else %}
+              <option value="year" >Past Year</option>
+            {% endif %}
+            </select>
+        </div>
+    </div>
+
+
+    <h1>Price Range</h1>
+    <div class="price-container">
+      <label for="min-price">Minimum Price:</label>
+      <input type="number" id="min-price" name="min_price" step="0.01" min="0" placeholder="Enter minimum price" value="{{ form.instance.min_price }}">
+  
+      <label for="max-price">Maximum Price:</label>
+      <input type="number" id="max-price" name="max_price" step="0.01" min="0" placeholder="Enter maximum price" value="{{ form.instance.max_price }}">
+    </div>
+
+    <div>
+      <h1>further details</h1>
+      <label for="sold">sold</label>
+      {% if form.instance.sold %}
+        <input type="checkbox" id="sold" name="sold" value="True" checked>
+      {% else %}
+        <input type="checkbox" id="sold" name="sold" value="True">
+      {% endif %}
+    
+      <label for="for_sale">For Sale</label>
+      {% if form.instance.for_sale %}
+        <input type="checkbox" id="for_sale" name="for_sale" value="True" checked>
+      {% else %}
+        <input type="checkbox" id="for_sale" name="for_sale" value="True">
+      {% endif %}
+    
+      <label for="want_artwork">Artwork</label>
+      {% if form.instance.want_artwork %}
+        <input type="checkbox" id="want_artwork" name="want_artwork" value="True" checked>
+      {% else %}
+        <input type="checkbox" id="want_artwork" name="want_artwork" value="True">
+      {% endif %}
+    
+      <label for="want_nfts">NFT</label>
+      {% if form.instance.want_nfts %}
+        <input type="checkbox" id="want_nfts" value="True" name="want_nfts" checked>
+      {% else %}
+        <input type="checkbox" id="want_nfts" name="want_nfts" value="True">
+      {% endif %}
+    </div>
+    
+
+    <div class="button-container">
+      <input type="submit" name="reset_filters" value="Reset Filters">
+      <input type="submit" name="save_changes" value="Save Changes">
+    </div>
+</form>

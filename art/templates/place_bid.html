@@ -1,0 +1,38 @@
+
+
+<h1>Place Bid</h1>
+
+<p>{{ art.name }}</p>
+<img src="{{ art.main_image.url }}" alt="Art Image" style="max-width: 300px; max-height: 300px;">
+<p>${{ art.art_price }}</p>
+
+<h2>Bids</h2>
+
+
+
+{% if art.bids.all %}
+    <ul>
+        {% for bid in art.bids.all %}
+                {% if bid.is_highest_bid %}
+                    <li><strong>Highest Bid: </strong>${{ bid.bid_amount }}</li>
+                {% endif %}
+        {% endfor %}
+    </ul>
+    <p>Total Bids: {{ art.bids.count }}</p>
+{% else %}
+    <p>No bids yet.</p>
+{% endif %}
+
+
+
+{% if art %}
+    <form method="POST" action="{% url 'place_bid' %}">
+    {% csrf_token %}
+    <input type="hidden" name="artwork_id" value="{{ art.id }}">
+    <label for="bid_amount">Bid Amount ${{ art.art_price }}:</label>
+    <input type="number" name="bid_amount" step="0.01" value="0.00" required>
+    <button type="submit">Place Bid</button>
+    </form>
+{% else %}
+    <p>No Artwork</p>
+{% endif %}

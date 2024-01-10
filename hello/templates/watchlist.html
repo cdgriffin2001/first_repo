@@ -1,0 +1,46 @@
+
+<style>
+    .artwork-container {
+        margin-top: 20px;
+    }
+
+    .artwork-image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+    }
+</style>
+
+<h1>Watchlist</h1>
+
+<h2>Artworks</h2>
+<div class="artwork-container">
+    {% for artwork in artworks %}
+    <div class="artwork">
+        <h3>"{{ artwork.name }}" - {{ artwork.artist }}</h3>
+        <p>${{ artwork.art_price }}</p>
+        <img src="{{ artwork.main_image.url }}" alt="Artwork Image" style="max-width: 300px; max-height: 300px;">
+        <div>
+            <a href="{% url 'sold_art_details' %}?artwork_id={{ artwork.id|add:0 }}">Art Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<h2>NFT's</h2>
+<div class="artwork-container">
+    {% for nft in nfts %}
+    <div class="artwork">
+        <h3>"{{ nft.artwork.name }}" - {{ nft.owner }}</h3>
+        <p>${{ nft.artwork.share_price }}</p>
+        <img src="{{ nft.main_image.url }}" alt="NFT Image" style="max-width: 300px; max-height: 300px;">
+        <div>
+            <a href="{% url 'investor_details' %}?nft_id={{ nft.id }}">Investor Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+

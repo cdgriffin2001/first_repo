@@ -1,0 +1,121 @@
+ 
+ .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* This will center the form vertically */
+  } 
+  
+.artwork-container {
+    margin-top: 20px;
+}
+ 
+.artwork-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+        /* Style the navigation links */
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 50px;
+
+}
+
+nav ul li a {
+    color: rgb(255, 255, 255); /* White text color for navigation links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    color: #ccc; /* Light gray text color on hover */
+}
+
+
+/* Style the search icon */
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.search-icon {
+  width: 300px;
+  height: 16px;
+  border: 1px solid #d7d4d4;
+  margin-left: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* Add cursor style to indicate it's clickable */
+  padding: 1px;
+}
+
+.search-icon:hover {
+  background-color: #f3f3f3;
+}
+
+.search-icon span {
+  margin-right: 15px; /* Add some space between the word "Search" and the search icon */
+  font-weight: 60; /* Make the text thinner */
+}
+
+
+ .word-list-container {
+  width: 100px;
+  margin-right: 135px;
+  display: grid; 
+  align-items: center;
+  justify-content: flex-start; 
+  height: 100px; 
+  overflow: hidden;
+  position: relative;
+  margin-left: 0px;
+}
+
+.word {
+  opacity: 0;
+  animation: moveUp 2.25s alternate;
+  animation-delay: calc(var(--index) * 2.25s);
+  animation-timing-function: ease-in-out;
+  position: absolute;
+  font-size: x-small;
+  width: 130px;
+  height: 2.5px;
+  padding-bottom: 5.25px;
+  z-index: 1;
+  color: #f0ecec;
+
+
+
+}
+
+@keyframes moveUp {
+  0% {
+    opacity: 0.85;
+    transform: translateY(-100%);
+  }
+  50% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.75;
+  }
+  90% {
+    opacity: 0;
+    transform: translateY(30%);
+  }
+} 

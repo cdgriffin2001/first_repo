@@ -1,0 +1,67 @@
+<style>
+
+.container{
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+
+.entry_box {
+  display: block;
+}
+
+.input {
+  width: 230px;
+}
+
+.not_valid {
+  color: brown;
+  font-weight: lighter;
+  font-size: small;
+}
+
+.links {
+  display: block;
+  margin-bottom: 5px;
+}
+
+
+</style>
+
+<div class="container">
+    <h1>Forgot Password</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div>
+        {% if first_step %}
+            <label class="label" for="username">Enter Username:</label>
+            <div class="entry_box">
+              <input class="input" type="text" name="username_entry" id="username_entry" required>
+              <div class="verification_type">
+                <label>
+                  <input type="radio" name="contact_method" value="text" required>
+                  Text
+                </label>
+                <label>
+                  <input type="radio" name="contact_method" value="email" required>
+                  E-Mail
+                </label>
+              </div>
+              {% if not_valid == True %}
+                <div class="not_valid">Not a valid username, please try again</div>
+              {% endif %}
+        {% endif %}
+            </div>
+        <div>
+          {% if verification_code %}
+            <label class="label" for="username">Enter Verification Code:</label>
+            <input class="input" type="text" name="code_entry" id="code_entry" required>
+          {% endif %}
+        </div>
+      </div>
+      <div class="links">
+        <a style="color: black;" class="links" href="{% url 'login' %}">Back to Login</a>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+</div>

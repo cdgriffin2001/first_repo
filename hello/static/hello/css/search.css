@@ -1,0 +1,284 @@
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Set background to black and text color to white */
+body {
+    background-color: rgb(245, 245, 245);
+    color: rgb(19, 19, 19);
+}
+
+/* Adjust the input width */
+.search-container input[type='text'] {
+  width: 100%; /* Set the width to your desired value */
+
+}
+
+.button-container{
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+
+/* Style the search icon */
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-right: 20px;
+  padding-left: 20px;
+  /* max-width: 950px; */
+  width:84.25%;
+}
+
+.container {
+  width: 100%;
+  margin-top: 20px;
+  margin: 5px;
+  display: flex; /* Use flexbox layout */
+  /* justify-content: space-between; Distribute items evenly */
+
+}
+
+
+
+.filters-container {
+    padding-left: 10px;
+    align-items: center;
+    width: 350px;
+    min-width: 300px;
+    /* border: 1px solid #aaa7a7 */
+}
+
+
+.percent-growth-contents {
+  padding: 5px;
+}
+
+.container {
+  width: 100%;
+  margin:5px;
+  margin-top: 30px;
+  display: flex;
+}
+
+.result-container {
+  /* display: grid; */
+  /* border: 1px solid black; */
+  /* grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fill,minmax(225px,1fr)); */
+  margin-left: 30px;
+  /* margin-right: 100px; */
+  display: flex;
+  flex-wrap: wrap;
+  margin: -5px
+}
+
+
+
+/* 
+add hover over items and displays like a list of other details */
+
+.item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black; /* Add borders around each item */
+  /* box-sizing: border-box; */
+  height: 275px;
+  width: 225px;
+  margin-left: -1px;
+  margin-bottom: -1px;
+  position: relative;
+} 
+
+.item-link {
+  /* text-decoration: none; */
+  color: rgb(19, 19, 19);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  height: 100%;
+}
+
+.search-banner {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+.search-contents {
+  display:flex;
+  margin-top: auto;
+  margin-right: 40px;
+  margin-left: 40px;
+  margin-bottom: 30px;
+} 
+
+.item-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: 1px solid black
+}
+
+/* Initial styling for the details container */
+.item-details {
+  display: none;
+  color: black;
+  transform: translate(490%,38%);
+  list-style: none; /* Remove bullets/dashes */
+  font-size: 10px;
+  position: absolute
+}
+
+/* Style for individual details */
+.item-details li {
+  margin-bottom: 2px;
+}
+
+/* Show the details container on hover */
+.item:hover .item-details {
+  display: block;
+}
+
+
+.profile-contents {
+  display:flex;
+  margin-top: auto;
+  margin-right: 40px;
+  margin-left: 40px;
+  margin-bottom: 30px;
+} 
+
+
+.profile-picture-placeholder {
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid black;
+}
+
+.profile-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.profile-details {
+  display: none;
+  color: black;
+  transform: translate(240%,38%);
+  list-style: none; 
+  font-size: 10px;
+  position: absolute
+}
+
+/* Style for individual details */
+.profile-details li {
+  margin-bottom: 2px;
+}
+
+/* Show the details container on hover */
+.item:hover .profile-details {
+  display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+.art-styles {
+  cursor: pointer;
+  margin-bottom: 5px;
+  text-decoration: none;
+
+}
+
+.art-styles:hover {
+  text-decoration: underline;
+}
+
+.art-styles.active {
+  text-decoration: underline;
+}
+
+.sub-filters {
+  display: none;
+  margin-left: 15px; 
+  text-decoration: none;
+}
+
+.sub-filter {
+  cursor: pointer;
+  margin-bottom: 3px;
+}
+
+.sub-filter:hover {
+  text-decoration: underline;
+}
+
+.sub-filter.active {
+  text-decoration: underline;
+}
+
+
+.realism-input {
+  opacity: 100%;
+}
+
+
+  /* .sub-filter input[type="checkbox"] {
+    display: none;
+  }
+
+  
+  .sub-filter label {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+ 
+  .sub-filter input[type="checkbox"]:checked + label {
+    text-decoration: underline;
+  }
+
+
+  .sub-filter input[type="checkbox"] + label::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ccc;
+    background-color: white;
+    transform: translateY(-50%);
+  }
+
+
+  .sub-filter input[type="checkbox"]:checked + label::before {
+    content: "\2713"; 
+    text-align: center;
+    line-height: 14px;
+    background-color: #00cc00; 
+  }
+ */

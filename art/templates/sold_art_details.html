@@ -1,0 +1,123 @@
+
+
+
+<h1>Art Details</h1>
+
+{% if user.is_authenticated and artwork.artist == user %}
+    {% if artwork %}
+
+    {{ artwork_id }}
+        <div class="artwork">
+            <p>${{ artwork.art_price }}</p>
+            <img src="{{ artwork.main_image.url }}" alt="Artwork Image" style="max-width: 300px; max-height: 300px;">
+            
+            <a href="{% url 'public_profile' %}?artwork_id={{ artwork.id|add:0 }}">Artist's Profile</a>
+            
+
+            <p>Name of Art: "{{ artwork.name }}"</p>
+            <p>Current owner of "{{ artwork.name }}" - {{ artwork.owner }}</p>
+            <p>{{artwork.additional_images}}</p>
+            <p>Description: {{ artwork.description }}</p>
+            <p>This artwork currently has {{ nft_count }} shares for sale, average price sold for: ${{ artwork.share_price }} per share</p>
+            <a href="{% url 'purchase_art' %}?artwork_id={{ artwork.id|add:0 }}">Bid Artwork</a>
+
+
+            <img src="data:image/png;base64,{{ graphic }}" alt="Line Chart">
+        </div>
+
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="submit" name="button" value="post art">
+        </form>
+    
+
+
+
+    {% else %}
+        <p>Artwork not found.</p>
+    {% endif %}     
+
+    {% if nft.bids.all %}
+
+        <ul>
+            <li><strong>Highest price NFT has sold for: </strong>${{ highest_bid }}</li>
+            {% for bid in nft.bids.all %}
+                    {% if bid.is_highest_bid %}
+                        <li><strong>Highest Bid for current NFT for sale: </strong>${{ bid.bid_amount }}</li>
+                    {% endif %}
+            {% endfor %}
+        </ul>
+        <p>Total bids for current NFT: {{ nft.bids.count }}</p>
+    {% else %}
+        <p>No bids yet.</p>
+    {% endif %}
+
+    <button onclick="confirmAction()">Sell NFT to highest bidder</button>
+    <script>
+        function confirmAction() {
+            if (confirm("Are you sure you want to sell this bid")) {
+                document.getElementById("confirm-form").submit();
+            }
+        }
+    </script>
+    
+
+    <form id="confirm-form" method="POST" action="{% url 'confirm_NFT_sale' %}">
+        {% csrf_token %}
+        <input type="hidden" name="nft_id" value="{{ nft.id }}">
+    </form>
+
+
+
+
+
+
+{% else %}
+
+    {% if artwork %}
+
+
+    <div class="artwork">
+        <p>${{ artwork.art_price }}</p>
+        <img src="{{ artwork.main_image.url }}" alt="Artwork Image" style="max-width: 300px; max-height: 300px;">
+        
+        <a href="{% url 'public_profile' %}?artwork_id={{ artwork.id|add:0 }}">Artist's Profile</a>
+        
+
+        <p>Name of Art: "{{ artwork.name }}"</p>
+        <p>Current owner of "{{ artwork.name }}" - {{ artwork.owner }}</p>
+        <p>{{artwork.additional_images}}</p>
+        <p>Description: {{ artwork.description }}</p>
+        <p>This post has {{ artwork.shares_count }} shares, average price sold for: ${{ artwork.share_price }} per share</p>
+        <a href="{% url 'NFT_Bid' %}?artwork_id={{ artwork.id|add:0 }}graphic={{ graphic }}">Bid on share</a>
+
+    </div>
+
+
+
+
+
+    {% else %}
+    <p>Artwork not found.</p>
+    {% endif %}     
+
+    {% if nft.bids.all %}
+    <ul>
+        <li><strong>Highest price NFT has sold for: </strong>${{ highest_bid }}</li>
+        {% for bid in nft.bids.all %}
+                {% if bid.is_highest_bid %}
+                    <li><strong>Highest Bid for current NFT for sale: </strong>${{ bid.bid_amount }}</li>
+                {% endif %}
+        {% endfor %}
+    </ul>
+    <p>Total bids for current NFT: {{ nft.bids.count }}</p>
+    {% else %}
+    <p>No bids yet.</p>
+    {% endif %}
+
+{% endif %}
+
+
+
+
+

@@ -1,0 +1,45 @@
+
+
+<h1>Place Bid on NFT</h1>
+
+{% if art %}
+
+    <h2>{{ art.name }}</h2>
+    <img src="{{ art.main_image.url }}" alt="Art Image" style="max-width: 300px; max-height: 300px;">
+    <p>${{ art.share_price }}</p>
+{% endif %}
+
+<h2>Bids</h2>
+
+
+
+{% if nft.bids.all %}
+    <ul>
+        {% for bid in nft.bids.all %}
+                {% if bid.is_highest_bid %}
+                    <li><strong>Highest Bid: </strong>${{ bid.bid_amount }}</li>
+                {% endif %}
+        {% endfor %}
+    </ul>
+    <p>Total Bids: {{ nft.bids.count }}</p>
+{% else %}
+    <p>No bids yet.</p>
+{% endif %}
+
+
+
+{% if nft %}
+
+    <!-- <img src="data:image/png;base64,{{ graph_object.image }}" alt="Line Chart"> -->
+
+    <form method="POST" action="{% url 'place_NFT_bid' %}">
+    {% csrf_token %}
+    <input type="hidden" name="nft_id" value="{{ nft_id }}">
+    <input type="hidden" name="graph_object" value="{{ graph_object }}">
+    <label for="bid_amount">Bid Amount ${{ art.share_price }}:</label>
+    <input type="number" name="bid_amount" step="0.01" value="0.00" required>
+    <button type="submit">Place Bid</button>
+    </form>
+{% else %}
+    <p>No nft</p>
+{% endif %}

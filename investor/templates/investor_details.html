@@ -1,0 +1,76 @@
+
+
+<h1>Investor Details</h1>
+
+{% if user.is_authenticated and nft.owner == user %}
+    {% if nft %}
+        <h2>"{{nft.artwork}}"</h2>
+        <img src="{{ nft.main_image.url }}" alt="Main Image" style="max-width: 300px; max-height: 300px;">
+        <img src="data:image/png;base64,{{ graph_object.image }}" alt="Line Chart">
+        <a href="{% url 'NFT_post' %}?nft_id={{ nft.id }}">Post NFT for sale</a>
+        <a href="{% url 'NFT_Bid' %}?artwork_id={{ artwork_id }}&nft_id={{nft.id}}">Bid on share</a>
+
+        <body>
+            This is 1 out of {{nft_count}} NFT's
+        </body>
+    
+    {% else %}
+        <p>No NFT</p>
+    {% endif %}
+
+    {% if nft.bids.all %}
+
+        <ul>
+            <li><strong>Highest price NFT has sold for: </strong>${{ highest_bid }}</li>
+            {% for bid in nft.bids.all %}
+                    {% if bid.is_highest_bid %}
+                        <li><strong>Highest Bid for current NFT for sale: </strong>${{ bid.bid_amount }}</li>
+                    {% endif %}
+            {% endfor %}
+        </ul>
+        <p>Total bids for current NFT: {{ nft.bids.count }}</p>
+    {% else %}
+        <p>No bids yet.</p>
+    {% endif %}
+
+    <button onclick="confirmAction()">Sell NFT to highest bidder</button>
+    <script>
+        function confirmAction() {
+            if (confirm("Are you sure you want to sell this bid")) {
+                document.getElementById("confirm-form").submit();
+            }
+        }
+    </script>
+    
+    
+    <form id="confirm-form" method="POST" action="{% url 'confirm_NFT_sale' %}">
+        {% csrf_token %}
+        <input type="hidden" name="nft_id" value="{{ nft.id }}">
+    </form>
+
+{% else %}    
+    {% if nft %}
+        <h2>"{{nft.artwork}}"</h2>
+        <img src="{{ nft.main_image.url }}" alt="Main Image" style="max-width: 300px; max-height: 300px;">
+        <img src="data:image/png;base64,{{ graphic }}" alt="Line Chart">
+        <a href="{% url 'NFT_post' %}?nft_id={{ nft.id }}">Post NFT for sale</a>
+    
+    {% else %}
+        <p>No NFT</p>
+    {% endif %}
+
+    {% if nft.bids.all %}
+    <ul>
+        <li><strong>Highest price NFT has sold for: </strong>${{ highest_bid }}</li>
+        {% for bid in nft.bids.all %}
+                {% if bid.is_highest_bid %}
+                    <li><strong>Highest Bid for current NFT for sale: </strong>${{ bid.bid_amount }}</li>
+                {% endif %}
+        {% endfor %}
+    </ul>
+    <p>Total bids for current NFT: {{ nft.bids.count }}</p>
+    {% else %}
+    <p>No bids yet.</p>
+    {% endif %}
+
+{% endif %}

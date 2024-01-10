@@ -1,0 +1,53 @@
+
+body {
+    margin: 50;
+    padding: 50;
+}
+
+/* Set background to black and text color to white */
+body {
+    background-color:rgb(15, 15, 15);
+    color: rgb(235, 229, 229);
+}
+
+/* Center the form using flexbox */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh; /* This will center the form vertically */
+}
+
+/* Add space between the form fields */
+.form-group {
+    margin-bottom: 10px;
+}
+
+/* Additional styles for form elements (optional) */
+label {
+    display: block; /* Ensures labels and inputs appear on separate lines */
+    font-weight: bold;
+    margin: 10px;
+}
+
+
+.link_container {
+    display: flex;
+    flex-direction: column; /* Arrange links vertically */
+    justify-content: center;
+    align-items: center;
+    height: -10vh; 
+}
+
+.links {
+    margin: 5px 0; /* Add vertical margin to separate the links */
+    color: aliceblue;
+    text-decoration: none;
+}
+
+.login-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}

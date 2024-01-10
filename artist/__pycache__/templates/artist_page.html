@@ -1,0 +1,24 @@
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .profile-picture-placeholder {
+            width: 100px;
+            height: 100px;
+            background-color: lightgray;
+            border-radius: 50%;
+        }
+    </style>
+
+    <h1>Artist Page</h1>
+
+    {% if user_profile.profile_picture %}
+        <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture">
+    {% else %}
+        <div class="profile-picture-placeholder"></div>
+    {% endif %}
+
+    <!-- Rest of the HTML content -->
+{% endblock %}

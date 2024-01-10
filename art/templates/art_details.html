@@ -1,0 +1,128 @@
+
+
+
+<h1>Art Details</h1>
+
+{% if user.is_authenticated and artwork.artist == user %}
+    {% if artwork %}
+
+        <div class="artwork">
+            <p>${{ artwork.art_price }}</p>
+            <img src="{{ artwork.main_image.url }}" alt="Artwork Image" style="max-width: 300px; max-height: 300px;">
+            
+            <a href="{% url 'public_profile' %}?artwork_id={{ artwork.id|add:0 }}">Artist's Profile</a>
+            
+            <!-- <form method="POST" action="{% url 'public_profile' %}">
+                {% csrf_token %}
+                <input type="hidden" name="artwork_id" value="{{ artwork.id }}">
+                <button type="submit">Artist Profile</button>
+            </form> -->
+
+
+            <p>Name of Art: {{ artwork.name }}"</p>
+            <p>Current owner of "{{ artwork.name }}" - {{ artwork.owner }}</p>
+            <p>{{artwork.additional_images}}</p>
+            <p>Description: {{ artwork.description }}</p>
+            <p>This post has {{ artwork.shares_count }} shares, at ${{ artwork.share_price }} per share</p>
+    
+        </div>
+        * for development, only should be able to place bid when user !=artist
+        
+        <a href="{% url 'purchase_art' %}?artwork_id={{ artwork.id|add:0 }}">Place Bid</a>
+        
+        <!-- <form method="POST" action="{% url 'purchase_art' %}">
+            {% csrf_token %}
+            <input type="hidden" name="artwork_id" value="{{ artwork.id }}">
+            <button type="submit">Place Bid</button>
+        </form> -->
+
+        <h2>Bids</h2>
+
+        {% if artwork.bids.all %}
+            <ul>
+                {% for bid in artwork.bids.all %}
+                        {% if bid.is_highest_bid %}
+                            <li><strong>Highest Bid: </strong>${{ bid.bid_amount }}</li>
+                        {% endif %}
+                {% endfor %}
+            </ul>
+            <p>Total Bids: {{ artwork.bids.count }}</p>
+        {% else %}
+            <p>No bids yet.</p>
+        {% endif %}
+
+        <button onclick="confirmAction()">Sell artwork to highest bidder</button>
+        <script>
+            function confirmAction() {
+                if (confirm("Are you sure you want to sell this artwork?")) {
+                    document.getElementById("confirm-form").submit();
+                }
+            }
+        </script>
+        
+        
+        <form id="confirm-form" method="POST" action="{% url 'confirm_sale' %}">
+            {% csrf_token %}
+            <input type="hidden" name="artwork_id" value="{{ artwork.id }}">
+        </form>
+            
+
+    {% else %}
+        <p>Artwork not found.</p>
+    {% endif %}     
+
+
+
+
+{% else %}
+    {% if artwork %}
+
+        <div class="artwork">
+            <h2>{{ artwork.artist }}</h2>
+            <p>${{ artwork.art_price }}</p>
+            <img src="{{ artwork.main_image.url }}" alt="Artwork Image" style="max-width: 300px; max-height: 300px;">
+            <form method="POST" action="{% url 'public_profile' %}">
+                {% csrf_token %}
+                <input type="hidden" name="artwork_id" value="{{ artwork.id }}">
+                <button type="submit">Artist Profile</button>
+            </form>
+            <p>Name of Art: {{ artwork.name }}</p>
+            <p>Current owner of "{{ artwork.name }}" - {{ artwork.owner }}</p>
+            <p>{{artwork.additional_images}}</p>
+            <p>Description: {{ artwork.description }}</p>
+            <p>This post has {{ artwork.shares_count }} shares, at ${{ artwork.share_price }} per share</p>
+        </div>
+
+        <a href="{% url 'purchase_art' %}?artwork_id={{ artwork.id|add:0 }}">Place Bid</a>
+        
+<!--         
+        <form method="POST" action="{% url 'purchase_art' %}">
+            {% csrf_token %}
+            <input type="hidden" name="artwork_id" value="{{ artwork.id }}">
+            <button type="submit">Place Bid</button>
+        </form> -->
+
+        <h2>Bids</h2>
+
+        {% if artwork.bids.all %}
+            <ul>
+                {% for bid in artwork.bids.all %}
+                        {% if bid.is_highest_bid %}
+                            <li><strong>Highest Bid: </strong>${{ bid.bid_amount }}</li>
+                        {% endif %}
+                {% endfor %}
+            </ul>
+            <p>Total Bids: {{ artwork.bids.count }}</p>
+        {% else %}
+            <p>No bids yet.</p>
+        {% endif %}
+            
+
+
+    {% else %}
+        <p>Artwork not found.</p>
+    {% endif %}
+
+
+{% endif %}
+

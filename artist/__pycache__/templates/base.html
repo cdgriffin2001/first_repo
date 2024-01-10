@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AXP</title>
+    <!-- Include your CSS and JavaScript files here -->
+</head>
+<body>
+    <header>
+        <!-- Your header content goes here -->
+        <h1>Fuck you</h1>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register">Register</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'artist_page' %}">Artist</a></li>  
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- The specific content for each page will be inserted here -->
+        <h1>you never make it out the hood bitch</h1>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- Your footer content goes here -->
+        &copy; 2023 AXP. All rights reserved.
+    </footer>
+</body>
+</html>

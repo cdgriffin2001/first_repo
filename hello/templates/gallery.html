@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'hello/css/gallery.css' %}">
+
+<nav>
+    <ul>
+        <li><a href="{% url 'art_styles' %}">Interests</a></li>
+        <li><a href="{% url 'watchlist' %}">View your watchlist</a></li>
+        <li><a href="{% url 'filters' %}">Filters</a></li>
+        <li class="cover">
+            <div class="search-container">
+                <a href="{% url 'search' %}" class="search-icon-link">
+                    <div class="search-icon">
+                        <span>Search</span>
+                        <div class="word-list-container">
+                            <span class="word" style="--index: 1;">Art</span>
+                            <span class="word" style="--index: 2;">NFT</span>
+                            <span class="word" style="--index: 3;">Realism</span>
+                            <span class="word" style="--index: 4;">Minimalism</span>
+                            <span class="word" style="--index: 5;">Conceptual</span>
+                            <span class="word" style="--index: 6;">Contemporary Art</span>
+                            <!-- Add more words as needed -->
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </li>
+   
+    </ul>
+</nav>
+
+<div class="container">
+
+    <h1><a href="{% url 'art_gallery' %}">Art Gallery</a></h1>
+
+    <h1><a href="{% url 'nft_gallery' %}">NFT Gallery</a></h1>
+
+
+
+</div>
+ 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'hello/js/gallery.js' %}"></script>
+
+
+{% endblock %}

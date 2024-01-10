@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Draft Artworks</h1>
+
+  {% if drafts %}
+    {% if drafts.exists %}
+      <ul>
+        {% for draft in drafts %}
+          {% if draft.is_draft %}
+            <li>
+              <h3>{{ draft.name }}</h3>
+              <img src="{{ draft.main_image.url }}" alt="{{ draft.name }}">
+            </li>
+            <form method="POST" action="{% url 'delete_draft' %}">
+              {% csrf_token %}
+              <input type="hidden" name="draft_id" value="{{ draft.id }}">
+              <button type="submit" onclick="return confirm('Deleting this draft will be final. Are you sure you want to proceed?')">Delete</button>
+            </form>
+            <a href="{% url 'art_post' artist_id=request.user.id%}?draft_id={{ draft.id }}" class="edit-button">Edit Draft</a>
+            {% endif %}
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No draft artworks available.</p>
+    {% endif %}
+  {% else %}
+    <p>No draft artworks available.</p>
+  {% endif %}
+{% endblock %}

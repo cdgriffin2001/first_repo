@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+.profile-container{
+    margin: auto;
+    display: flex;
+    flex-direction: column; /* Change flex-direction to column */
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-picture-placeholder {
+    align-items: center;
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    background-color: rgb(211, 211, 211);
+    border-radius: 50%;
+    display: center;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.profile-picture-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+}
+
+.link_container {
+    padding-left: 30px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Other styles... */
+</style>
+
+
+<script>
+function showAlert() {
+    var hiddenContent = document.getElementById('hidden');
+    console.log(hiddenContent)
+}
+
+</script>
+
+<h1>Artist Page</h1>
+
+
+<button id="toggleButton" type="button" onclick="showAlert()" value="display">Click Me!</button>
+<div class="hidden" style="display: none;">
+    magic
+</div>
+
+<div class="profile-container">
+    {% if user_profile.profile_image %}
+        <div class="profile-picture-placeholder">
+            <img src="{{ user_profile.profile_image.url }}" alt="Profile Picture">
+        </div>
+    {% else %}
+        <div class="profile-picture-placeholder"></div>
+    {% endif %}
+
+    <!-- Display the bio if it exists -->
+    {% if user_profile.bio %}
+        <p>Bio: {{ user_profile.bio }}</p>
+    {% endif %}
+
+    <div class="link_container">
+        <!-- Add the link to edit the profile -->
+        <a href="{% url 'edit_profile' artist_id=user_profile.id %}">Edit Profile</a>
+    
+        <a href="{% url 'art_post' artist_id=user_profile.id %}">Art Post</a>
+    
+    </div>
+</div>
+
+
+    {% if artworks %}
+<div class="for_sale_art">
+    <h2>Artwork for sale:</h2>
+        <div class="artwork-container">
+            {% for artwork in artworks %}
+                <div>
+                    <img class="artwork-image" src="{{ artwork.main_image.url }}" alt="Artwork Image" style="max-width: 300px; max-height: 300px;">
+                    <h3>{{ artwork.name }}</h3>
+                </div>
+                <a href="{% url 'art_details' %}?artwork_id={{ artwork.id|add:0 }}">Art Details</a>
+            {% endfor %}
+        </div>
+    
+    {% else %}
+    <h2>Artwork for sale:</h2>
+        <p>No art posted yet.</p>
+    {% endif %}
+</div>
+
+    {% if sold_artworks%}
+<div class="sold_art_container">
+    <h2>Sold Artwork:</h2>
+    <div class="artwork-container">
+        {% for artwork in sold_artworks %}
+            <div>
+                <img class="artwork-image" src="{{ artwork.main_image.url }}" alt="Artwork Image" style="max-width: 300px; max-height: 300px;">
+                <h3>{{ artwork.name }}</h3>
+            </div>
+            <a href="{% url 'sold_art_details' %}?artwork_id={{ artwork.id|add:0 }}">Art Details</a>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <h2>Sold Artwork:</h2>
+        <p>No art sold yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

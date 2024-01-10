@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'hello/css/art_styles.css' %}">
+
+</head>
+
+
+<body>
+
+
+  <form method="post">
+    {% csrf_token %}
+    <h1>Art Styles</h1>
+    <div class="container">
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/realisim.png" alt="Realisim Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="realisim">Realisim:</label>
+          <input type="checkbox" id="realisim" name="realisim"{% if "realism" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/abstract.jpg" alt="Abstract Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="abstract">Abstract:</label>
+          <input type="checkbox" id="abstract" name="abstract"{% if "abstract" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+
+
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/impressionism.jpg" alt="Abstract Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="impressionism">Impressionism:</label>
+          <input type="checkbox" id="impressionism" name="impressionism" {% if "impressionism" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+
+
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/cubisim.jpg" alt="Abstract Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="cubisim">Cubisim:</label>
+          <input type="checkbox" id="cubisim" name="cubisim"{% if "cubisim" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/surrealisim.jpg" alt="Abstract Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="surrealisim">Surrealisim:</label>
+          <input type="checkbox" id="surrealisim" name="surrealisim" {% if "surrealisim" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/pop_art.jpg" alt="Abstract Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="pop_art">Pop Art:</label>
+          <input type="checkbox" id="pop_art" name="pop_art" {% if "pop_art" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/minimalism.jpg" alt="Abstract Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="minimalism">Minimalism:</label>
+          <input type="checkbox" id="minimalism" name="minimalism" {% if "minimalism" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/contemporary.jpg" alt="Abstract Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="contemporary">Contemporary:</label>
+          <input type="checkbox" id="contemporary" name="contemporary" {% if "contemporary" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/street_art.jpg" alt="Abstract Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="street_art">Street Art:</label>
+          <input type="checkbox" id="street_art" name="street_art" {% if "street_art" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/digital_art.jpg" alt="Abstract Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="digital_art">Digital Art:</label>
+          <input type="checkbox" id="digital_art" name="digital_art" {% if "digital_art" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+
+    </div>
+  
+
+
+
+    <h1>Genres</h1>
+
+    <div class="container">
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/landscape.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="landscape">Landscape:</label>
+          <input type="checkbox" id="landscape" name="landscape" {% if "landscape" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/portrait.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="portrait">Portrait:</label>
+          <input type="checkbox" id="portrait" name="portrait" {% if "portrait" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/still_life.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="still_life">Still Life:</label>
+          <input type="checkbox" id="still_life" name="still_life" {% if "still_life" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/figurative.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="figurative">Figurative:</label>
+          <input type="checkbox" id="figurative" name="figurative" {% if "figurative" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/wildlife.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="wildlife">Wildlife:</label>
+          <input type="checkbox" id="wildlife" name="wildlife" {% if "wildlife" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/architecture.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="architecture">Architecture:</label>
+          <input type="checkbox" id="architecture" name="architecture" {% if "architecture" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/historical.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="historical">Historical:</label>
+          <input type="checkbox" id="historical" name="historical" {% if "historical" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/conceptual.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="conceptual">Conceptual:</label>
+          <input type="checkbox" id="conceptual" name="conceptual" {% if "conceptual" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/nature.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="nature">Nature:</label>
+          <input type="checkbox" id="nature" name="nature" {% if "nature" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/fantasy_sci_fi.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="fantasy_sci_fi">Fantasy/Sci-Fi:</label>
+          <input type="checkbox" id="fantasy_sci_fi" name="fantasy_sci_fi" {% if "fantasy_sci_fi" in repop_data %}checked{% endif %}>
+        </div>
+      </div>
+    </div>
+    
+
+
+    <h1>Historical Periods</h1>
+
+    <div class="container">
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/renaissance.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="renaissance">Renaissance:</label>
+          <input type="checkbox" id="renaissance" name="renaissance">
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/baroque.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="baroque">Baroque:</label>
+          <input type="checkbox" id="baroque" name="baroque">
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/romanticisim.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="romanticism">Romanticism:</label>
+          <input type="checkbox" id="romanticism" name="romanticism">
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/modernisim.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="modernism">Modernism:</label>
+          <input type="checkbox" id="modernism" name="modernism">
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/post_impressionism.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="post_impressionism">Post-Impressionism:</label>
+          <input type="checkbox" id="post_impressionism" name="post_impressionism">
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/art_nouveau.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="art_nouveau">Art Nouveau:</label>
+          <input type="checkbox" id="art_nouveau" name="art_nouveau">
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/expressionisim.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="expressionism">Expressionism:</label>
+          <input type="checkbox" id="expressionism" name="expressionism">
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/abstract_expressionisim.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="abstract_expressionism">Abstract Expressionism:</label>
+          <input type="checkbox" id="abstract_expressionism" name="abstract_expressionism">
+        </div>
+      </div>
+    
+      <div class="image-checkbox-container">
+        <div class="image-container">
+          <img src="/media/project_images/contemporary_art_movements.jpg" alt="Image">
+        </div>
+        <div class="checkbox-container">
+          <label for="contemporary_art_movements">Contemporary Art Movements:</label>
+          <input type="checkbox" id="contemporary_art_movements" name="contemporary_art_movements">
+        </div>
+      </div>
+    </div>
+    
+
+<h1>Mediums</h1>
+
+<div class="container">
+  <div class="checkbox-container">
+    <label for="painting">Painting (Oil, Acrylic, Watercolor):</label>
+    <input type="checkbox" id="painting" name="painting" {% if "painting" in repop_data %}checked{% endif %}>
+  </div>
+</div>
+
+<div class="container">
+  <div class="checkbox-container">
+    <label for="drawing">Drawing (Pencil, Charcoal, Ink):</label>
+    <input type="checkbox" id="drawing" name="drawing" {% if "drawing" in repop_data %}checked{% endif %}>
+  </div>
+</div>
+
+<div class="container">
+  <div class="checkbox-container">
+    <label for="sculpture">Sculpture:</label>
+    <input type="checkbox" id="sculpture" name="sculpture" {% if "sculpture" in repop_data %}checked{% endif %}>
+  </div>
+</div>
+
+<div class="container">
+  <div class="checkbox-container">
+    <label for="photography">Photography:</label>
+    <input type="checkbox" id="photography" name="photography" {% if "photography" in repop_data %}checked{% endif %}>
+  </div>
+</div>
+
+<div class="container">
+  <div class="checkbox-container">
+    <label for="printmaking">Printmaking:</label>
+    <input type="checkbox" id="printmaking" name="printmaking" {% if "printmaking" in repop_data %}checked{% endif %}>
+  </div>
+</div>
+
+<div class="container">
+  <div class="checkbox-container">
+    <label for="mixed_media">Mixed Media:</label>
+    <input type="checkbox" id="mixed_media" name="mixed_media" {% if "mixed_media" in repop_data %}checked{% endif %}>
+  </div>
+</div>
+
+<div class="container">
+  <div class="checkbox-container">
+    <label for="digital_art">Digital Art:</label>
+    <input type="checkbox" id="digital_art" name="digital_art" {% if "digital_art" in repop_data %}checked{% endif %}>
+  </div>
+</div>
+
+<div class="container">
+  <div class="checkbox-container">
+    <label for="collage">Collage:</label>
+    <input type="checkbox" id="collage" name="collage" {% if "collage" in repop_data %}checked{% endif %}>
+  </div>
+</div>
+
+<div class="container">
+  <div class="checkbox-container">
+    <label for="installation_art">Installation Art:</label>
+    <input type="checkbox" id="installation_art" name="installation_art" {% if "installation_art" in repop_data %}checked{% endif %}>
+  </div>
+</div>
+
+<div class="submit">
+  <input href="{% url 'art_gallery' %}" type="submit" value="Save and Finish">
+</div>
+</form>
+
+</body>
+</html>
+
+
+
+
+<!-- 
+<h1>Price Range</h1>
+
+  
+    <div class="price-container">
+      <label for="min-price">Minimum Price:</label>
+      <input type="number" id="min-price" name="min_price" step="0.01" min="0" placeholder="Enter minimum price">
+  
+      <label for="max-price">Maximum Price:</label>
+      <input type="number" id="max-price" name="max_price" step="0.01" min="0" placeholder="Enter maximum price">
+    </div>
+   -->

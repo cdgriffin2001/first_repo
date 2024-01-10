@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'hello/css/base.css' %}">
+
+<head>
+    <title>VXP</title>
+
+    <!-- Include your CSS and JavaScript files here -->
+</head>
+<body>
+    <header>
+        <!-- Your header content goes here -->
+        <h1><a class="logo" href="/home">Æ</a></h1>
+    </header>
+
+    <main>
+    {% block content %}
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/gallery">Galleries</a></li>
+                <li><a href="/register">Register</a></li>
+                <li><a href="/login">Login</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'artist_page' %}">Artist</a></li>
+                    <li><a href="{% url 'investor_page' %}">Investor</a></li> 
+                {% endif %}
+            </ul>
+        </nav>
+ 
+        <!-- <div class="grid-container">
+            <div class="grid-item top-preformers-container">
+              <div class="banner">Top Preformers</div>
+              <div class="contents">
+                Start Investing
+              </div>
+            </div>
+            <div class="grid-item up-n-coming-container">
+              <div class="banner">Up And Coming</div>
+              <div class="contents">
+                Explore Art 
+              </div>
+            </div>
+            <div class="grid-item trending-nfts-container">
+              <div class="banner">Trending NFT's</div>
+              <div class="contents">
+                
+              </div>
+            </div>
+            <div class="grid-item trending-art-container">
+              <div class="banner">Trending Art</div>
+              <div class="contents"></div>
+            </div>
+            <div class="grid-item connect-container">
+              <div class="banner">Connect</div>
+              <div class="contents"></div>
+            </div>
+            <div class="grid-item local-container">
+              <div class="banner">Local</div>
+              <div class="contents"></div>
+            </div>
+          </div>
+           -->
+
+        {% endblock %}
+    </main>
+</body>
+
+
+    <footer>
+        <!-- Your footer content goes here -->
+        &copy; 2023 VXP. All rights reserved.
+    </footer>
+
+</html>
